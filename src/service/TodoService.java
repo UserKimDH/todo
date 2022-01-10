@@ -12,16 +12,16 @@ import vo.Todo;
 public class TodoService {
 	private TodoDao todoDao;
 	
-	// 일정 목록 조회
+	// �씪�젙 紐⑸줉 議고쉶
 	public List<Todo> getTodoListByDate(Todo todo) {
 		
-		System.out.println("[debug] TodoService. getTodoListByDate(Todo todo) => 상세보기할 일정 정보 : " + todo.toString());
+		System.out.println("[debug] TodoService. getTodoListByDate(Todo todo) => �긽�꽭蹂닿린�븷 �씪�젙 �젙蹂� : " + todo.toString());
 		
 		List<Todo> todoList = null; new ArrayList<Todo>();
 		Connection conn = null;
 		
 		try {
-			conn = DBUtil.getConnection("jdbc:mariadb://127.0.0.1:3306/todo", "root", "java1004");
+			conn = DBUtil.getConnection("jdbc:mariadb://13.125.218.194:3306/todo", "root", "java1004");
 			todoDao = new TodoDao();
 			todoList = todoDao.selectTodoList(conn, todo);
 			
@@ -37,16 +37,16 @@ public class TodoService {
 		return todoList;
 	}
 	
-	// 일정 등록
+	// �씪�젙 �벑濡�
 	public int addTodoByDate(Todo todo) {
 		
-		System.out.println("[debug] TodoService.addTodoByDate(Todo todo) => 등록할 일정 정보 : " + todo.toString());
+		System.out.println("[debug] TodoService.addTodoByDate(Todo todo) => �벑濡앺븷 �씪�젙 �젙蹂� : " + todo.toString());
 		
 		Connection conn = null;
 		int confirm = 0;
 		
 		try {
-			conn = DBUtil.getConnection("jdbc:mariadb://127.0.0.1:3306/todo", "root", "java1004");
+			conn = DBUtil.getConnection("jdbc:mariadb://13.125.218.194:3306/todo", "root", "java1004");
 			todoDao = new TodoDao();
 			confirm = todoDao.insertTodo(conn, todo);
 			
@@ -63,16 +63,16 @@ public class TodoService {
 		return confirm;
 	}
 	
-	// 일정 변경
+	// �씪�젙 蹂�寃�
 	public int modifyTodoByDate(Todo todo) {
 		
-		System.out.println("[debug] TodoService.modifyTodoByDate(Todo todo) => 수정할 일정 정보 : " + todo.toString());
+		System.out.println("[debug] TodoService.modifyTodoByDate(Todo todo) => �닔�젙�븷 �씪�젙 �젙蹂� : " + todo.toString());
 		
 		Connection conn = null;
 		int confirm = 0;
 		
 		try {
-			conn = DBUtil.getConnection("jdbc:mariadb://127.0.0.1:3306/todo", "root", "java1004");
+			conn = DBUtil.getConnection("jdbc:mariadb://13.125.218.194:3306/todo", "root", "java1004");
 			todoDao = new TodoDao();
 			confirm = todoDao.updateTodo(conn, todo);
 			
@@ -89,17 +89,17 @@ public class TodoService {
 		return confirm;
 	}
 	
-	// 특정 일정 삭제(1개의 일정)
+	// �듅�젙 �씪�젙 �궘�젣(1媛쒖쓽 �씪�젙)
 	public int removeTodoByDate(Todo todo) {
 		
-		System.out.println("[debug] TodoService.removeTodoByDate(Todo todo) => 삭제할 일정 정보 : " + todo.toString());
+		System.out.println("[debug] TodoService.removeTodoByDate(Todo todo) => �궘�젣�븷 �씪�젙 �젙蹂� : " + todo.toString());
 		
 		Connection conn = null;
 		int confirm = 0;
 		
 		try {
 			
-			conn = DBUtil.getConnection("jdbc:mariadb://127.0.0.1:3306/todo", "root", "java1004");
+			conn = DBUtil.getConnection("jdbc:mariadb://13.125.218.194:3306/todo", "root", "java1004");
 			todoDao = new TodoDao();
 			confirm = todoDao.deleteTodoOne(conn, todo);
 			

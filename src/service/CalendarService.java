@@ -15,44 +15,44 @@ public class CalendarService {
 	private TodoDao todoDao;
 	
    public Map<String, Object> getTargetCalendar(String memberId, String currentYear, String currentMonth, String option) { // option : pre, next
-	      // 1. 달력 코드
+	      // 1. �떖�젰 肄붾뱶
 	      Map<String, Object> map = new HashMap<>();
 	      
-	      Calendar c = Calendar.getInstance(); // 오늘 날짜의 년도와 월을 가진다
+	      Calendar c = Calendar.getInstance(); // �삤�뒛 �궇吏쒖쓽 �뀈�룄�� �썡�쓣 媛�吏꾨떎
 	      
 	      if(currentYear != null && currentMonth != null) {
 	         int y = 0;
 	         int m = 0;
 	         y = Integer.parseInt(currentYear);
-	         // 1월 ~ 12월
+	         // 1�썡 ~ 12�썡
 	         m = Integer.parseInt(currentMonth);
 	         if(option != null && option.equals("pre")) {
-	            m = m-1; // issue : 0일때
+	            m = m-1; // issue : 0�씪�븣
 	            if(m == 0) {
 	               m = 12;      
 	               y--; // y-=1; y = y-1;
 	            }
 	         } else if(option != null && option.equals("next")) {
-	            m = m+1; // issue : 13일때
+	            m = m+1; // issue : 13�씪�븣
 	            if(m == 13) {
 	               m = 1;
 	               y++;
 	            }
 	         }
 	         c.set(Calendar.YEAR, y);
-	         c.set(Calendar.MONTH, m-1);// 0월~11월
+	         c.set(Calendar.MONTH, m-1);// 0�썡~11�썡
 	      }
 	   
-	      c.set(Calendar.DATE, 1); // c객체 오늘의 정보 -> 같은 달 1일로 변경
-	      // 달력에 필요한 데이터
+	      c.set(Calendar.DATE, 1); // c媛앹껜 �삤�뒛�쓽 �젙蹂� -> 媛숈� �떖 1�씪濡� 蹂�寃�
+	      // �떖�젰�뿉 �븘�슂�븳 �뜲�씠�꽣
 	      int targetYear = c.get(Calendar.YEAR);
 	      int targetMonth = c.get(Calendar.MONTH) + 1;
 	      int endDay = c.getActualMaximum(Calendar.DATE);
-	      // 달력 앞,뒤 공백의 개수
-	      int startBlank = 0; // 타켓이 되는 달의 1일의 요일 -> 일요일이면 0, 월요일 1.... 토요일이면 6이 필요
+	      // �떖�젰 �븵,�뮘 怨듬갚�쓽 媛쒖닔
+	      int startBlank = 0; // ��耳볦씠 �릺�뒗 �떖�쓽 1�씪�쓽 �슂�씪 -> �씪�슂�씪�씠硫� 0, �썡�슂�씪 1.... �넗�슂�씪�씠硫� 6�씠 �븘�슂
 	      startBlank = c.get(Calendar.DAY_OF_WEEK) - 1;
 	      
-	      int endBlank = 0; // 전체의 <td>개수 = startBlank+endDay+endBlnk <- 이값이 7로 나누어 떨어지도록
+	      int endBlank = 0; // �쟾泥댁쓽 <td>媛쒖닔 = startBlank+endDay+endBlnk <- �씠媛믪씠 7濡� �굹�늻�뼱 �뼥�뼱吏��룄濡�
 	      endBlank = 7 - (startBlank+endDay)%7;
 	      if(endBlank == 7) {
 	         endBlank = 0;
@@ -64,15 +64,15 @@ public class CalendarService {
 	      map.put("startBlank", startBlank);
 	      map.put("endBlank", endBlank);
 	      
-	      // 달력에 추가할 모델 알고리즘
+	      // �떖�젰�뿉 異붽��븷 紐⑤뜽 �븣怨좊━利�
 	      List<Todo> list = null;
 	      Connection conn = null;
 	      try {
-	         conn = DBUtil.getConnection("jdbc:mariadb://127.0.0.1:3306/todo", "root", "java1004");
+	         conn = DBUtil.getConnection("jdbc:mariadb://13.125.218.194:3306/todo", "root", "java1004");
 	         todoDao = new TodoDao();
 	         Todo todo = new Todo(); 
-	         // memberId <- 매개변수로 입력받자
-	         // todoDate의 년 월 <- targetYear와targetMonth를 사용해서...
+	         // memberId <- 留ㅺ컻蹂��닔濡� �엯�젰諛쏆옄
+	         // todoDate�쓽 �뀈 �썡 <- targetYear��targetMonth瑜� �궗�슜�빐�꽌...
 	         todo.setMemberId(memberId);
 	         
 	         String strYear = ""+targetYear;
@@ -81,7 +81,7 @@ public class CalendarService {
 	            strMonth = "0"+targetMonth;
 	         }
 	         todo.setTodoDate(strYear+"-"+strMonth); 
-	         // 디버깅
+	         // �뵒踰꾧퉭
 	         System.out.println(todo+" <--todo");
 	         
 	         list = todoDao.selectTodoListByMonth(conn, todo);
